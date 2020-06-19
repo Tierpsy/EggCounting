@@ -158,12 +158,9 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
             else:
                 self.ui.number_of_eggs.setText("0 Eggs")
 
-            # prev_frame = self.frame_number-1
-            if self.ui.show_prev.isChecked():
-                prev_list = []
-                for prev_frame in range(0, self.frame_number):
-                    if prev_frame in self.eggs[self.h5path]:
-                        prev_list.extend(self.eggs[self.h5path][prev_frame])
+            prev_frame = self.frame_number-1
+            if self.ui.show_prev.isChecked() and prev_frame in self.eggs[self.h5path]:
+                prev_list = self.eggs[self.h5path][prev_frame])
 
                 painter = QPainter()
                 painter.begin(self.frame_qimg)
