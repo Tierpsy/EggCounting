@@ -109,6 +109,7 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
 
                 self.frame_number = 0
                 self.ui.spinBox_frame.setValue(self.frame_number)
+                self.frame_step = 1
 
                 self.frame_img = img
 
@@ -160,7 +161,7 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
 
             prev_frame = self.frame_number-1
             if self.ui.show_prev.isChecked() and prev_frame in self.eggs[self.h5path]:
-                prev_list = self.eggs[self.h5path][prev_frame])
+                prev_list = self.eggs[self.h5path][prev_frame]
 
                 painter = QPainter()
                 painter.begin(self.frame_qimg)
