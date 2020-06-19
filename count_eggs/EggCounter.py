@@ -83,7 +83,6 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
         self.mainImage.zoomFitInView()
 
 
-
     def updateVideoFile(self, vfilename):
 
         self._ask_saving()
@@ -109,7 +108,6 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
 
                 self.frame_number = 0
                 self.ui.spinBox_frame.setValue(self.frame_number)
-                self.frame_step = 1
 
                 self.frame_img = img
 
