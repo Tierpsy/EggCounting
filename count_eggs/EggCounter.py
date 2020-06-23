@@ -58,6 +58,10 @@ def _updateUI(ui):
     ui.horizontalLayout_3.addWidget(ui.copy_first_b)
     ui.copy_first_b.setText("Copy First")
 
+    ui.copy_earliest_b = QPushButton(ui.centralWidget)
+    ui.horizontalLayout_3.addWidget(ui.copy_earliest_b)
+    ui.copy_earliest_b.setText("Copy Earliest")
+
     ui.save_push_button = QPushButton(ui.centralWidget)
     ui.horizontalLayout_3.addWidget(ui.save_push_button)
     ui.save_push_button.setText("Save")
@@ -84,6 +88,7 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
         self.ui.show_prev.clicked.connect(self.updateImage)
         self.ui.copy_prev_b.clicked.connect(self.copy_prev_fun)
         self.ui.copy_first_b.clicked.connect(self.copy_first_fun)
+        self.ui.copy_earliest_b.clicked.connect(self.copy_earliest_fun)
 
         self.mainImage.zoomFitInView()
 
@@ -235,6 +240,16 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
             return
         else:
             for (x,y) in self.eggs[self.h5path][first_frame]:
+                self._add_coordinate(self.h5path, self.frame_number, x, y, is_delete=False)
+        self.updateImage()
+
+    def copy_earliest_fun(self):
+        earliest_frame = min(self.eggs[self.h5path].keys())
+        if not earliest_frame in self.eggs[self.h5path]:
+            print('this should really not happen?')
+            return
+        else:
+            for (x,y) in self.eggs[self.h5path][earliest_frame]:
                 self._add_coordinate(self.h5path, self.frame_number, x, y, is_delete=False)
         self.updateImage()
 
