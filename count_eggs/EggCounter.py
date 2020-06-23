@@ -54,6 +54,10 @@ def _updateUI(ui):
     ui.horizontalLayout_3.addWidget(ui.copy_prev_b)
     ui.copy_prev_b.setText("Copy Prev")
 
+    ui.copy_first_b = QPushButton(ui.centralWidget)
+    ui.horizontalLayout_3.addWidget(ui.copy_first_b)
+    ui.copy_first_b.setText("Copy First")
+
     ui.save_push_button = QPushButton(ui.centralWidget)
     ui.horizontalLayout_3.addWidget(ui.save_push_button)
     ui.save_push_button.setText("Save")
@@ -79,6 +83,7 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
         self.ui.save_push_button.clicked.connect(self.save_eggs_table)
         self.ui.show_prev.clicked.connect(self.updateImage)
         self.ui.copy_prev_b.clicked.connect(self.copy_prev_fun)
+        self.ui.copy_first_b.clicked.connect(self.copy_first_fun)
 
         self.mainImage.zoomFitInView()
 
@@ -222,9 +227,16 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
         else:
             for (x,y) in self.eggs[self.h5path][prev_frame]:
                 self._add_coordinate(self.h5path, self.frame_number, x, y, is_delete=False)
-
         self.updateImage()
 
+    def copy_first_fun(self):
+        first_frame = 0
+        if not first_frame in self.eggs[self.h5path]:
+            return
+        else:
+            for (x,y) in self.eggs[self.h5path][first_frame]:
+                self._add_coordinate(self.h5path, self.frame_number, x, y, is_delete=False)
+        self.updateImage()
 
     def save_eggs_table(self):
         if self.vfilename is not None:
