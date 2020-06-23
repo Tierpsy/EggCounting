@@ -158,7 +158,7 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
                 painter.setBrush(Qt.red)
                 for (x,y) in current_list:
                     #painter.drawEllipse(x,y, 1,1)
-                    painter.drawPoint(x,y)
+                    painter.drawPoint(round(x),round(y))
                 painter.end()
 
                 #set number of eggs eggs
@@ -179,7 +179,7 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
                 pen.setColor(Qt.blue)
                 painter.setPen(pen)
                 for (x,y) in prev_list:
-                    painter.drawEllipse(x-3,y-3, 5,5)
+                    painter.drawEllipse(round(x-3),round(y-3), 5,5)
                     #painter.drawPoint(x,y)
                 painter.end()
 
