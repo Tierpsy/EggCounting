@@ -1,4 +1,4 @@
-name: eggscounting
+name: eggcounting
 channels:
   - conda-forge
   - defaults
