@@ -8,7 +8,7 @@ import cv2
 from PyQt5.QtWidgets import QApplication, QLabel, QCheckBox, QPushButton, QMessageBox
 from PyQt5.QtGui import QPainter, QColor, QPen
 from PyQt5.QtCore import Qt, QPointF
-from HDF5VideoPlayer import HDF5VideoPlayerGUI
+from .HDF5VideoPlayer import HDF5VideoPlayerGUI
 
 #mask_file = '/Users/ajaver/OneDrive - Imperial College London/optogenetics/Arantza/MaskedVideos/control_pulse/pkd2_5min_Ch1_11052017_121414.hdf5'
 #mask_file = '/Users/ajaver/OneDrive - Imperial College London/aggregation/N2_1_Ch1_29062017_182108_comp3.hdf5'
@@ -22,13 +22,14 @@ def _updateUI(ui):
     ui.pushButton_h5groups = None
 
     ui.horizontalLayout_3.removeWidget(ui.doubleSpinBox_fps)
-    ui.doubleSpinBox_fps.deleteLater()
-    ui.doubleSpinBox_fps = None
-
+    ui.horizontalLayout_2.addWidget(ui.doubleSpinBox_fps)
+    # ui.doubleSpinBox_fps.deleteLater()
+    # ui.doubleSpinBox_fps = None
 
     ui.horizontalLayout_3.removeWidget(ui.label_fps)
-    ui.label_fps.deleteLater()
-    ui.label_fps = None
+    ui.horizontalLayout_2.addWidget(ui.label_fps)
+    # ui.label_fps.deleteLater()
+    # ui.label_fps = None
 
     ui.horizontalLayout_3.removeWidget(ui.spinBox_step)
     ui.spinBox_step.deleteLater()
@@ -91,6 +92,14 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
         self.ui.copy_earliest_b.clicked.connect(self.copy_earliest_fun)
 
         self.mainImage.zoomFitInView()
+
+    # @property
+    # def fps(self):
+    #     return 1
+
+    @property
+    def frame_step(self):
+        return 1
 
 
     def updateVideoFile(self, vfilename):
@@ -303,10 +312,13 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
         self._ask_saving()
         super().closeEvent(event)
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
 
+def main():
+    app = QApplication(sys.argv)
     ui = EggCounterGUI()
     ui.show()
-
     sys.exit(app.exec_())
+    return
+
+if __name__ == '__main__':
+    main()
