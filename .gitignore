@@ -105,3 +105,6 @@ venv.bak/
 
 # mac rubbish
 .DS_Store
+
+# example files
+data/
