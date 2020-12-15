@@ -32,6 +32,8 @@ To create a desktop launcher:
 Double-clicking `eggcounter.command` will launch the GUI.
 
 ### Usage
+
+#### Annotation GUI
 Drag and drop a MaskedVideo in the Select File field.
 Double-click on an egg to mark its position.
 Double-click on an erroneous annotation to delete it.
@@ -45,3 +47,31 @@ Make sure that all eggs in the frame are annotated (red marks).
 You can also copy all the annotations from the very first frame by clicking on the `Copy First` button, or from the earliest annotated frame in the video (which could be after your current frame) by clicking on the `Copy Earliest` button.
 
 Save your progress at any time with the SAVE button.
+
+#### Tool to create timelapses
+Command line tool to take a lot of small imgstore files with name matching
+`_0000_YYYYMMDD_HHMMSS` and create a single timelapse hdf5 file compatible
+with the GUI.
+This tool only joins imgstores that exist in the same folder.
+```bash
+conda activate eggcounting
+create_timelapse /path/to/folder/with/time/points
+```
+
+#### Tool to add well_name to annotations
+When annotating videos that span more than one well in a multiwell plate,
+it is useful to know which well an egg was in.
+This tool adds that information to existing egg annotations.
+To add well names to all annotations in a folder:
+```bash
+conda activate eggcounting
+add_wells_info_folder --data_dir /path/to/folder/with/eggs.csv/and/.hdf5
+```
+To add well names to a single annotation file:
+```bash
+conda activate eggcounting
+add_wells_info --annotations_fname /path/to/file/ending/in/eggs.csv
+```
+In both cases one can force the tool to find the well name from scratch
+by appending `--ignore_old_well_names True` to the previous commands.
+
