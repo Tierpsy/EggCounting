@@ -3,11 +3,20 @@
 Simple GUI (courtesy of ver228) to annotate eggs in videos.
 
 ### Installation
-``` bash
+```bash
 cd ~/behavgenom_repos
 git clone https://github.com/Tierpsy/EggCounting.git
 conda env create -f environment.yml
 conda activate eggcounting
+pip install -e .
+```
+
+### Update an existing installation
+```bash
+cd ~/behavgenom_repos/EggCounting
+git pull
+conda env activate eggcounting
+conda env update -f environment.yml
 pip install -e .
 ```
 
