@@ -11,5 +11,9 @@ dependencies:
   - pytables=3.6.1
   - python=3.8.3
   - tqdm=4.50.2
+  - pip=20.1.1
+  - scipy=1.5.3
+  - scikit-image=0.17.2
+  - scikit-learn=0.23.2
   - pip:
     - imgstore==0.2.9

@@ -17,7 +17,13 @@ setuptools.setup(
             + "main",
             "count_eggs="
             + "eggcounting.count_eggs.EggCounter:"
-            + "main"
+            + "main",
+            "add_wells_info="
+            + "eggcounting.utils.add_wells_division:"
+            + "add_wells_to_annotations",
+            "add_wells_info_folder="
+            + "eggcounting.utils.add_wells_division:"
+            + "add_wells_to_annotations_in_folder",
         ]
     },
     )
