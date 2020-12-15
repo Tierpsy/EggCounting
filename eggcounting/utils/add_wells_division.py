@@ -200,24 +200,6 @@ def add_wells_to_annotations_in_folder():
 
 
 if __name__ == '__main__':
-
-    src_dir = Path('~/work_repos/EggCounting/data/unsplitted/').expanduser()
-    hdf5_fname = 'r01_sp02_20201112_122940.22956822_timelapse.hdf5'
-    anns_fname = 'r01_sp02_20201112_122940.22956822_timelapse_eggs.csv'
-
-    dst_dir = Path('~/work_repos/EggCounting/data/splitted/').expanduser()
-
-    from shutil import copy2
-    copy2(src_dir / hdf5_fname, dst_dir)
-    copy2(src_dir / anns_fname, dst_dir)
-
-    _add_wells_to_annotations(
-        dst_dir / anns_fname,
-        dst_dir / hdf5_fname,
-        ignore_old_well_names=False,
-        )
-
-    # _add_wells_to_annotations_in_folder('/Volumes/behavgenom$/Bonnie/Egg_laying_drug_screen/Timelapses/20201112')
-
+    add_wells_to_annotations()
 
 
