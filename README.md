@@ -73,5 +73,5 @@ conda activate eggcounting
 add_wells_info --annotations_fname /path/to/file/ending/in/eggs.csv
 ```
 In both cases one can force the tool to find the well name from scratch
-by appending `--ignore_old_well_names True` to the previous commands.
+by appending `--ignore_old_well_names=True` to the previous commands.
 
