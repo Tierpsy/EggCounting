@@ -1,9 +1,10 @@
-import sys
 import os
-import numpy as np
-import time
-import pandas as pd
+import sys
 import cv2
+import time
+import platform
+import numpy as np
+import pandas as pd
 
 from PyQt5.QtWidgets import QApplication, QLabel, QCheckBox, QPushButton, QMessageBox
 from PyQt5.QtGui import QPainter, QColor, QPen
@@ -315,10 +316,13 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
 
 def main():
     app = QApplication(sys.argv)
+    if platform.system() == 'Linux':
+        app.setStyle('Fusion')
     ui = EggCounterGUI()
     ui.show()
     sys.exit(app.exec_())
     return
+
 
 if __name__ == '__main__':
     main()
