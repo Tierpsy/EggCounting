@@ -68,6 +68,9 @@ def _updateUI(ui):
     ui.horizontalLayout_3.addWidget(ui.save_push_button)
     ui.save_push_button.setText("Save")
 
+    ui.lineEdit_video.setAttribute(Qt.WA_MacShowFocusRect, 0)
+    ui.spinBox_frame.setAttribute(Qt.WA_MacShowFocusRect, 0)
+    ui.doubleSpinBox_fps.setAttribute(Qt.WA_MacShowFocusRect, 0)
     return ui
 
 
@@ -76,9 +79,9 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
         super().__init__()
 
         self.ui = _updateUI(self.ui)
-        self.is_new_eggs = False #flag to know if there are new egg events to save
+        self.is_new_eggs = False  # are there are new egg events to save?
 
-        #default expected groups in the hdf5
+        # default expected groups in the hdf5
         self.ui.comboBox_h5path.setItemText(1, "/mask")
         self.ui.comboBox_h5path.setItemText(0, "/full_data")
 
@@ -101,7 +104,6 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
     @property
     def frame_step(self):
         return 1
-
 
     def updateVideoFile(self, vfilename):
 
@@ -141,10 +143,7 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
                     QMessageBox.Ok)
 
         self.load_eggs_table()
-
-
         self.updateImage()
-
 
     def updateImage(self):
         if self.fid is not None:
@@ -167,12 +166,13 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
                 painter.setPen(pen)
                 painter.setBrush(Qt.red)
                 for (x,y) in current_list:
-                    #painter.drawEllipse(x,y, 1,1)
+                    # painter.drawEllipse(x,y, 1,1)
                     painter.drawPoint(round(x),round(y))
                 painter.end()
 
-                #set number of eggs eggs
-                n_eggs_txt = "{} Eggs".format(len(self.eggs[self.h5path][self.frame_number]))
+                # set number of eggs eggs
+                n_eggs_txt = len(self.eggs[self.h5path][self.frame_number])
+                n_eggs_txt = f"{n_eggs_txt} Eggs"
                 self.ui.number_of_eggs.setText(n_eggs_txt)
             else:
                 self.ui.number_of_eggs.setText("0 Eggs")
@@ -188,17 +188,12 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
                 pen.setWidth(1)
                 pen.setColor(Qt.blue)
                 painter.setPen(pen)
-                for (x,y) in prev_list:
+                for (x, y) in prev_list:
                     painter.drawEllipse(round(x-3),round(y-3), 5,5)
-                    #painter.drawPoint(x,y)
+                    # painter.drawPoint(x,y)
                 painter.end()
 
-
-
-
         self.mainImage.setPixmap(self.frame_qimg)
-
-
 
     def doubleclick_event(self, event):
         self.m_x = event.pos().x()
@@ -208,17 +203,17 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
 
     def _add_coordinate(self, h5path, frame_number, x, y, is_delete=True):
         self.is_new_eggs = True
-        if not h5path in self.eggs:
+        if h5path not in self.eggs:
             self.eggs[h5path] = {}
 
-        if not frame_number in self.eggs[h5path]:
+        if frame_number not in self.eggs[h5path]:
             self.eggs[h5path][frame_number] = []
 
         current_list = self.eggs[h5path][frame_number]
 
         if not current_list:
-            #add the element if the list if empty
-            current_list.append((x,y))
+            # add the element if the list if empty
+            current_list.append((x, y))
         else:
             V = np.array(current_list)
             dx = x - V[:, 0]
@@ -229,38 +224,41 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
             ind = np.argmin(rr)
             if rr[ind] <= MIN_DIST:
                 if is_delete:
-                    #delete it if there was a click almost over a previous point
+                    # delete it if click almost over a previous point
                     del current_list[ind]
             else:
-                #otherwise add it
-                current_list.append((x,y))
+                # otherwise add it
+                current_list.append((x, y))
 
     def copy_prev_fun(self):
-        prev_frame = self.frame_number -1
-        if not prev_frame in self.eggs[self.h5path]:
+        prev_frame = self.frame_number - 1
+        if prev_frame not in self.eggs[self.h5path]:
             return
         else:
-            for (x,y) in self.eggs[self.h5path][prev_frame]:
-                self._add_coordinate(self.h5path, self.frame_number, x, y, is_delete=False)
+            for (x, y) in self.eggs[self.h5path][prev_frame]:
+                self._add_coordinate(
+                    self.h5path, self.frame_number, x, y, is_delete=False)
         self.updateImage()
 
     def copy_first_fun(self):
         first_frame = 0
-        if not first_frame in self.eggs[self.h5path]:
+        if first_frame not in self.eggs[self.h5path]:
             return
         else:
-            for (x,y) in self.eggs[self.h5path][first_frame]:
-                self._add_coordinate(self.h5path, self.frame_number, x, y, is_delete=False)
+            for (x, y) in self.eggs[self.h5path][first_frame]:
+                self._add_coordinate(
+                    self.h5path, self.frame_number, x, y, is_delete=False)
         self.updateImage()
 
     def copy_earliest_fun(self):
         earliest_frame = min(self.eggs[self.h5path].keys())
-        if not earliest_frame in self.eggs[self.h5path]:
+        if earliest_frame not in self.eggs[self.h5path]:
             print('this should really not happen?')
             return
         else:
-            for (x,y) in self.eggs[self.h5path][earliest_frame]:
-                self._add_coordinate(self.h5path, self.frame_number, x, y, is_delete=False)
+            for (x, y) in self.eggs[self.h5path][earliest_frame]:
+                self._add_coordinate(
+                    self.h5path, self.frame_number, x, y, is_delete=False)
         self.updateImage()
 
     def save_eggs_table(self):
@@ -273,9 +271,10 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
         data = []
         for gg, frame_data in self.eggs.items():
             for frame, coords in frame_data.items():
-                data += [(gg, frame, x,y) for x,y in coords]
+                data += [(gg, frame, x, y) for x, y in coords]
 
-        return pd.DataFrame(data, columns=['group_name', 'frame_number', 'x', 'y'])
+        return pd.DataFrame(
+            data, columns=['group_name', 'frame_number', 'x', 'y'])
 
     def _get_save_name(self, vfilename):
         return os.path.splitext(vfilename)[0] + '_eggs.csv'
@@ -299,12 +298,12 @@ class EggCounterGUI(HDF5VideoPlayerGUI):
     def _ask_saving(self):
         if self.is_new_eggs:
             quit_msg = "Do you want to save the current progress?"
-            reply = QMessageBox.question(self,
-                                                   'Message',
-                                                   quit_msg,
-                                                   QMessageBox.No | QMessageBox.Yes,
-                                                   QMessageBox.Yes)
-
+            reply = QMessageBox.question(
+                self,
+                'Message',
+                quit_msg,
+                QMessageBox.No | QMessageBox.Yes,
+                QMessageBox.Yes)
 
             if reply == QMessageBox.Yes:
                 self.save_eggs_table()
@@ -318,6 +317,10 @@ def main():
     app = QApplication(sys.argv)
     if platform.system() == 'Linux':
         app.setStyle('Fusion')
+    style_fname = os.path.join(os.path.dirname(__file__), 'stylesheet.qss')
+    with open(style_fname, 'r') as fid:
+        app.setStyleSheet(fid.read())
+    # app.setStyleSheet(style)
     ui = EggCounterGUI()
     ui.show()
     sys.exit(app.exec_())
