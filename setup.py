@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='eggcounting',
-    version='0.0.1',
+    version='0.0.2',
     description='GUI for counting eggs',
     url='https://github.com/Tierpsy/EggCounting',
     author='Luigi Feriani',
