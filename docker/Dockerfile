@@ -11,6 +11,10 @@ ENV LIBGL_ALWAYS_INDIRECT=1
 # Install Python 3, PyQt5
 RUN apt-get update && apt-get install -y python3-pyqt5 python3-pip git
 
+# pre-create the workdir to make it work with github actions
+RUN mkdir /EggCounting && chown -R tierpsy_user:tierpsy_user /EggCounting
+
+# switch user
 USER tierpsy_user
 ENV HOME="/home/tierpsy_user"
 
