@@ -9,6 +9,7 @@ setuptools.setup(
     author_email='l.feriani@lms.mrc.ac.uk',
     license='MIT',
     packages=setuptools.find_packages(),
+    package_data={"": ["*.qss"]},
     zip_safe=False,
     entry_points={
         "console_scripts": [

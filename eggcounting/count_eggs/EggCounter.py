@@ -11,6 +11,9 @@ from PyQt5.QtGui import QPainter, QColor, QPen
 from PyQt5.QtCore import Qt, QPointF
 from .HDF5VideoPlayer import HDF5VideoPlayerGUI
 
+from eggcounting import STYLESHEET_FNAME
+
+
 #mask_file = '/Users/ajaver/OneDrive - Imperial College London/optogenetics/Arantza/MaskedVideos/control_pulse/pkd2_5min_Ch1_11052017_121414.hdf5'
 #mask_file = '/Users/ajaver/OneDrive - Imperial College London/aggregation/N2_1_Ch1_29062017_182108_comp3.hdf5'
 
@@ -317,8 +320,7 @@ def main():
     app = QApplication(sys.argv)
     if platform.system() == 'Linux':
         app.setStyle('Fusion')
-    style_fname = os.path.join(os.path.dirname(__file__), 'stylesheet.qss')
-    with open(style_fname, 'r') as fid:
+    with open(STYLESHEET_FNAME, 'r') as fid:
         app.setStyleSheet(fid.read())
     # app.setStyleSheet(style)
     ui = EggCounterGUI()
