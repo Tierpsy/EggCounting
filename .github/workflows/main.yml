@@ -17,13 +17,11 @@ jobs:
     steps:
       - name: check out repo code
         uses: actions/checkout@v2
-      - name: docker login
+      - name: docker login, build, tag, and push
         env:
           DOCKER_USER: ${{ secrets.DOCKERHUB_USER_LUIGI }}
           DOCKER_TOKEN: ${{ secrets.DOCKERHUB_TOKEN_LUIGI }}
           RELEASE_TAG: ${{ github.event.release.tag_name }}
-        run: docker login -u $DOCKER_USER -p $DOCKER_TOKEN
-      - name: docker build tag and push
         run: |
           if [[ -z $RELEASE_TAG ]]
           then
@@ -33,6 +31,7 @@ jobs:
           fi
           echo $tagname
           echo $DOCKER_USER/eggcounting:"${tagname}"
+          docker login -u $DOCKER_USER -p $DOCKER_TOKEN
           docker build -t eggcounting ./docker
           docker tag eggcounting lferiani/eggcounting:"${tagname}"
           docker push lferiani/eggcounting:"${tagname}"
