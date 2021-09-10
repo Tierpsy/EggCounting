@@ -16,9 +16,15 @@ ENV HOME="/home/tierpsy_user"
 
 # set the working directory in the container
 WORKDIR /EggCounting
+RUN whoami
+RUN ls -lah /
+RUN pwd
+RUN ls -lah .
 
 # get the source code
 RUN git clone https://github.com/Tierpsy/EggCounting.git .
+RUN pwd
+RUN ls -lah .
 
 # copy the dependencies file to the working directory
 COPY docker_requirements.txt ./docker_requirements.txt
