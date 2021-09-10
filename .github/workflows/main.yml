@@ -27,7 +27,7 @@ jobs:
       - name: docker build and tag
         run: |
           docker build -t eggcounting ./docker
-          docker tag eggcounting $DOCKER_USER/eggcounting:$IMAGE_VERSION
+          docker tag eggcounting "${DOCKER_USER}"/eggcounting:"${IMAGE_VERSION}"
       - name: docker push
         run: |
-          docker push $DOCKER_USER/eggcounting:$IMAGE_VERSION
+          docker push "${DOCKER_USER}"/eggcounting:"${IMAGE_VERSION}"
