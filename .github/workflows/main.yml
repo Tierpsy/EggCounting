@@ -15,7 +15,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: check out repo code
+        uses: actions/checkout@v2
       - name: docker login
         env:
           DOCKER_USER: ${{ secrets.DOCKERHUB_USER_LUIGI }}
@@ -26,7 +27,7 @@ jobs:
       - name: docker build and tag
         run: |
           docker build -t eggcounting ./docker
-          docker tag eggcounting lferiani/eggcounting:$IMAGE_VERSION
+          docker tag eggcounting $DOCKER_USER/eggcounting:$IMAGE_VERSION
       - name: docker push
         run: |
-          docker push lferiani/eggcounting:$IMAGE_VERSION
+          docker push $DOCKER_USER/eggcounting:$IMAGE_VERSION
