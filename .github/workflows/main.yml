@@ -21,18 +21,19 @@ jobs:
         env:
           DOCKER_USER: ${{ secrets.DOCKERHUB_USER_LUIGI }}
           DOCKER_TOKEN: ${{ secrets.DOCKERHUB_TOKEN_LUIGI }}
-        run: docker login -u "${DOCKER_USER}" -p "${DOCKER_TOKEN}"
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: docker login -u $DOCKER_USER -p $DOCKER_TOKEN
       - name: docker build tag and push
         run: |
-          if [[ -z ${{ github.event.release.tag_name }} ]]
+          if [[ -z $RELEASE_TAG ]]
           then
           tagname='latest'
           else
-          tagname=${{ github.event.release.tag_name }}
+          tagname=$RELEASE_TAG
           fi
-          echo "${tagname}"
+          echo $tagname
           echo ${DOCKER_USER}/eggcounting:"${tagname}"
           docker build -t eggcounting ./docker
-          docker tag eggcounting "${DOCKER_USER}"/eggcounting:"${tagname}"
-          docker push "${DOCKER_USER}"/eggcounting:"${tagname}"
+          docker tag eggcounting ${DOCKER_USER}/eggcounting:"${tagname}"
+          docker push ${DOCKER_USER}/eggcounting:"${tagname}"
 
