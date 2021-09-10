@@ -18,15 +18,18 @@ jobs:
       - name: check out repo code
         uses: actions/checkout@v2
       - name: docker login
-        env:
-          DOCKER_USER: ${{ secrets.DOCKERHUB_USER_LUIGI }}
-          DOCKER_TOKEN: ${{ secrets.DOCKERHUB_TOKEN_LUIGI }}
-          IMAGE_VERSION: ${{ github.event.release.tag_name }}
+        run: docker login -u ${{ secrets.DOCKERHUB_USER_LUIGI }} -p ${{ secrets.DOCKERHUB_USER_LUIGI }}
+      - name: docker build tag and push
         run: |
-          docker login -u $DOCKER_USER -p $DOCKER_TOKEN
-      - name: docker build and tag
-        run: |
+          if [[ -z ${{ github.event.release.tag_name }} ]]
+          then
+          tagname='latest'
+          else
+          tagname=${{ github.event.release.tag_name }}
+          fi
+          echo "${tagname}"
+          echo ${{ secrets.DOCKERHUB_USER_LUIGI }}/eggcounting:"${tagname}"
           docker build -t eggcounting ./docker
-          docker tag eggcounting ${{ secrets.DOCKERHUB_USER_LUIGI }}/eggcounting:${{ github.event.release.tag_name }}
-      - name: docker push
-        run: docker push ${{ secrets.DOCKERHUB_USER_LUIGI }}/eggcounting:${{ github.event.release.tag_name }}
+          docker tag eggcounting ${{ secrets.DOCKERHUB_USER_LUIGI }}/eggcounting:"${tagname}"
+          docker push ${{ secrets.DOCKERHUB_USER_LUIGI }}/eggcounting:"${tagname}"
+
