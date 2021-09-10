@@ -1,0 +1,31 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  release:
+    types: [published]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: docker login
+        env:
+          DOCKER_USER: ${{ secrets.DOCKERHUB_USER_LUIGI }}
+          DOCKER_TOKEN: ${{ secrets.DOCKERHUB_TOKEN_LUIGI }}
+          IMAGE_VERSION: ${{ github.event.release.tag_name }}
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_TOKEN
+      - name: docker build
+        run: |
+          docker build -t lferiani/eggcounting:$IMAGE_VERSION ./docker
+      - name: docker push
+        run: |
+          docker push lferiani/eggcounting:$IMAGE_VERSION
