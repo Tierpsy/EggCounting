@@ -23,9 +23,10 @@ jobs:
           IMAGE_VERSION: ${{ github.event.release.tag_name }}
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_TOKEN
-      - name: docker build
+      - name: docker build and tag
         run: |
-          docker build -t lferiani/eggcounting:$IMAGE_VERSION ./docker
+          docker build -t eggcounting ./docker
+          docker tag eggcounting lferiani/eggcounting:$IMAGE_VERSION
       - name: docker push
         run: |
           docker push lferiani/eggcounting:$IMAGE_VERSION
