@@ -32,8 +32,8 @@ jobs:
           tagname=$RELEASE_TAG
           fi
           echo $tagname
-          echo ${DOCKER_USER}/eggcounting:"${tagname}"
+          echo $DOCKER_USER/eggcounting:"${tagname}"
           docker build -t eggcounting ./docker
-          docker tag eggcounting ${DOCKER_USER}/eggcounting:"${tagname}"
-          docker push ${DOCKER_USER}/eggcounting:"${tagname}"
+          docker tag eggcounting lferiani/eggcounting:"${tagname}"
+          docker push lferiani/eggcounting:"${tagname}"
 
