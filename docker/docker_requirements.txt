@@ -1,6 +1,6 @@
 setuptools
 fire==0.3.1
-numpy==1.18.5
+numpy==1.22.0
 opencv-python==4.2.0.34
 pandas==1.0.5
 PyQt5==5.12.3
